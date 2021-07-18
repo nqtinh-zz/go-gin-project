@@ -1,0 +1,288 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Account:
+    properties:
+      bank:
+        $ref: '#/definitions/Bank'
+      createdAt:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        format: int32
+        type: integer
+        x-go-name: ID
+      name:
+        type: string
+        x-go-name: Name
+      transactions:
+        items:
+          $ref: '#/definitions/Transaction'
+        type: array
+        x-go-name: Transactions
+      userId:
+        format: int32
+        type: integer
+        x-go-name: UserID
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  Bank:
+    type: string
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  CreateAccountReq:
+    properties:
+      bank:
+        $ref: '#/definitions/Bank'
+      name:
+        type: string
+        x-go-name: Name
+      userId:
+        format: int32
+        type: integer
+        x-go-name: UserID
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  CreateUserReq:
+    properties:
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: Username
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  CreateUserTransactionReq:
+    properties:
+      accountId:
+        format: int64
+        type: integer
+        x-go-name: AccountID
+      amount:
+        format: int64
+        type: integer
+        x-go-name: Amount
+      transactionType:
+        $ref: '#/definitions/TransactionType'
+      userId:
+        format: int64
+        type: integer
+        x-go-name: UserID
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  LoginReq:
+    properties:
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: Username
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  Transaction:
+    properties:
+      amount:
+        format: int64
+        type: integer
+        x-go-name: Amount
+      createdAt:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        format: int32
+        type: integer
+        x-go-name: ID
+      transactionType:
+        $ref: '#/definitions/TransactionType'
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  TransactionType:
+    type: string
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  User:
+    properties:
+      accounts:
+        items:
+          $ref: '#/definitions/Account'
+        type: array
+        x-go-name: Accounts
+      createdAt:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        format: int32
+        type: integer
+        x-go-name: ID
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: Username
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+  UserTransactionResp:
+    properties:
+      accountId:
+        format: int64
+        type: integer
+        x-go-name: AccountID
+      amount:
+        type: string
+        x-go-name: Amount
+      bank:
+        type: string
+        x-go-name: Bank
+      createdAt:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        format: int64
+        type: integer
+        x-go-name: UserID
+      transactionType:
+        $ref: '#/definitions/TransactionType'
+    type: object
+    x-go-package: github.com/nqtinh/go-gin-project/models
+host: localhost:9393
+info:
+  description: Documentation of our awesome API.
+  title: awesome.
+  version: 1.0.0
+paths:
+  /api/accounts:
+    get:
+      description: Get account by id
+      operationId: getAccountRequestWrapper
+      parameters:
+      - description: Account ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "200":
+          $ref: '#/responses/accountResponse'
+        "400":
+          description: ""
+      tags:
+      - accounts
+    post:
+      description: Create account
+      operationId: ceateAccountReqWrapper
+      parameters:
+      - description: Account ID
+        in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/CreateAccountReq'
+      responses:
+        "200":
+          $ref: '#/responses/accountResponse'
+        "400":
+          description: ""
+      tags:
+      - accounts
+  /api/users:
+    post:
+      description: Create user
+      operationId: createUserWrapper
+      parameters:
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/CreateUserReq'
+      responses:
+        "200":
+          $ref: '#/responses/createUserResponse'
+        "400":
+          description: ""
+      tags:
+      - users
+  /api/users/login:
+    post:
+      description: Create account
+      operationId: loginUserReqWrapper
+      parameters:
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/LoginReq'
+      responses:
+        "200":
+          $ref: '#/responses/loginUserResponse'
+        "400":
+          description: ""
+      tags:
+      - users
+  /api/users/transactions:
+    get:
+      description: Get transaction by userId
+      operationId: getUserTransactionsRequestWrapper
+      parameters:
+      - description: User ID
+        format: int64
+        in: path
+        name: userId
+        required: true
+        type: integer
+        x-go-name: UserID
+      responses:
+        "200":
+          $ref: '#/responses/transactionsResponse'
+        "400":
+          description: ""
+      tags:
+      - transactions
+    post:
+      description: Create account
+      operationId: ceateUserTransactionsReqWrapper
+      parameters:
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/CreateUserTransactionReq'
+      responses:
+        "200":
+          $ref: '#/responses/createUserTransactionsResponseWrapper'
+        "400":
+          description: ""
+      tags:
+      - transactions
+produces:
+- application/json
+responses:
+  accountResponse:
+    description: Response
+    schema:
+      $ref: '#/definitions/Account'
+  createUserResponse:
+    description: Response
+    schema:
+      $ref: '#/definitions/User'
+  createUserTransactionsResponseWrapper:
+    description: Response
+    schema:
+      $ref: '#/definitions/UserTransactionResp'
+  loginUserResponse:
+    description: Response
+    schema:
+      $ref: '#/definitions/User'
+  transactionsResponse:
+    description: Response
+    schema:
+      $ref: '#/definitions/Transaction'
+schemes:
+- http
+securityDefinitions:
+  basic:
+    type: basic
+swagger: "2.0"

@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=api
+    ports:
+      - 5434:5432
+    volumes:
+      - $GOPATH/src/github.com/nqtinh/go-gin-project/volumes/pgdata:/var/lib/postgresql/data
+  redis:
+    restart: always
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - 6377:6379

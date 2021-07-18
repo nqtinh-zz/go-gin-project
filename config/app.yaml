@@ -1,0 +1,5 @@
+dsn: "postgres://postgres:postgres@localhost:5434/api?sslmode=disable"
+redis_client_host: "localhost"
+redis_client_port: 6377
+jwt_verification_key: "QfCAH04Cob7b71QCqy738vw5XGSnFZ9d"
+jwt_signing_key: "QfCAH04Cob7b71QCqy738vw5XGSnFZ9d"

@@ -1,2 +1,9 @@
 # Pgdata
 /volumes
+
+# vscode
+.idea
+
+# go
+/go.mod
+/go.sum
